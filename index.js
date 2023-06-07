@@ -107,4 +107,22 @@ function mainMenu() {
       mainMenu();
     });
   }
+ 
+  function addDepartment() {
+    inquirer
+      .prompt([
+        {
+          name: 'name',
+          type: 'input',
+          message: 'Enter the name of the department:',
+        },
+      ])
+      .then((answer) => {
+        connection.query('INSERT INTO departments SET ?', answer, (err) => {
+          if (err) throw err;
+          console.log('Department added successfully!');
+          mainMenu();
+        });
+      });
+  }
   
