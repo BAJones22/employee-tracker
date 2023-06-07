@@ -69,3 +69,11 @@ function mainMenu() {
   // Call the mainMenu function to start the application
   mainMenu();
   
+  function viewAllDepartments() {
+    connection.query('SELECT * FROM departments', (err, res) => {
+      if (err) throw err;
+      console.table(res);
+      mainMenu();
+    });
+  }
+  
