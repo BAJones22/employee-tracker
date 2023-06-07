@@ -76,6 +76,19 @@ function mainMenu() {
       mainMenu();
     });
   }
+
+  function viewAllRoles() {
+    const query = `
+      SELECT roles.id, roles.title, departments.name AS department, roles.salary
+      FROM roles
+      INNER JOIN departments ON roles.department_id = departments.id
+    `;
+    connection.query(query, (err, res) => {
+      if (err) throw err;
+      console.table(res);
+      mainMenu();
+    });
+  }
   
   function viewAllRoles() {
     const query = `
