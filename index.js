@@ -90,11 +90,16 @@ function mainMenu() {
     });
   }
   
-  function viewAllRoles() {
+  function viewAllEmployees() {
     const query = `
-      SELECT roles.id, roles.title, departments.name AS department, roles.salary
-      FROM roles
+      SELECT 
+        employees.id, employees.first_name, employees.last_name,
+        roles.title, departments.name AS department, roles.salary,
+        CONCAT(managers.first_name, ' ', managers.last_name) AS manager
+      FROM employees
+      INNER JOIN roles ON employees.role_id = roles.id
       INNER JOIN departments ON roles.department_id = departments.id
+      LEFT JOIN employees AS managers ON employees.manager_id = managers.id
     `;
     connection.query(query, (err, res) => {
       if (err) throw err;
