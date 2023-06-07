@@ -21,7 +21,7 @@ function mainMenu() {
     inquirer
       .prompt([
         {
-          name: 'choice',
+          name: 'action',
           type: 'list',
           message: 'What would you like to do?',
           choices: [
@@ -71,6 +71,19 @@ function mainMenu() {
   
   function viewAllDepartments() {
     connection.query('SELECT * FROM departments', (err, res) => {
+      if (err) throw err;
+      console.table(res);
+      mainMenu();
+    });
+  }
+  
+  function viewAllRoles() {
+    const query = `
+      SELECT roles.id, roles.title, departments.name AS department, roles.salary
+      FROM roles
+      INNER JOIN departments ON roles.department_id = departments.id
+    `;
+    connection.query(query, (err, res) => {
       if (err) throw err;
       console.table(res);
       mainMenu();
