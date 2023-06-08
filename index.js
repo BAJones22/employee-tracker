@@ -126,3 +126,37 @@ function mainMenu() {
       });
   }
   
+  function addRole() {
+    inquirer
+      .prompt([
+        {
+          name: 'title',
+          type: 'input',
+          message: 'Enter the title of the role:',
+        },
+        {
+          name: 'salary',
+          type: 'input',
+          message: 'Enter the salary for the role:',
+          validate: (input) => {
+            return !isNaN(input) || 'Please enter a valid number';
+          },
+        },
+        {
+          name: 'department_id',
+          type: 'input',
+          message: 'Enter the department ID for the role:',
+          validate: (input) => {
+            return !isNaN(input) || 'Please enter a valid number';
+          },
+        },
+      ])
+      .then((answer) => {
+        connection.query('INSERT INTO roles SET ?', answer, (err) => {
+          if (err) throw err;
+          console.log('Role added successfully!');
+          mainMenu();
+        });
+      });
+  }
+  
