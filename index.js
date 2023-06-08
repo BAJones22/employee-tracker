@@ -199,3 +199,43 @@ function mainMenu() {
       });
   }
   
+  function updateEmployeeRole() {
+    // Fetch the list of employees for the prompt
+    connection.query('SELECT * FROM employees', (err, employees) => {
+      if (err) throw err;
+  
+      // Prompt for employee selection
+      inquirer
+        .prompt([
+          {
+            name: 'employee_id',
+            type: 'list',
+            message: 'Select an employee to update:',
+            choices: employees.map((employee) => ({
+              name: `${employee.first_name} ${employee.last_name}`,
+              value: employee.id,
+            })),
+          },
+          {
+            name: 'role_id',
+            type: 'input',
+            message: 'Enter the new role ID for the employee:',
+            validate: (input) => {
+              return !isNaN(input) || 'Please enter a valid number';
+            },
+          },
+        ])
+        .then((answer) => {
+          connection.query(
+            'UPDATE employees SET role_id = ? WHERE id = ?',
+            [answer.role_id, answer.employee_id],
+            (err) => {
+              if (err) throw err;
+              console.log('Employee role updated successfully!');
+              mainMenu();
+            }
+          );
+        });
+    });
+  }
+  
