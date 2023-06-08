@@ -4,9 +4,9 @@ require('dotenv').config();
 
 const db = mysql.createConnection({
   host: 'localhost',
-  user: process.env.DB_USER,
-  password: process.env.DB_PASS,
-  database: process.env.DB_NAME,
+  user: 'root',
+  password: 'password',
+  database: 'employee_db',
 });
 
 // Test the database connection
@@ -39,25 +39,25 @@ function mainMenu() {
       .then((answer) => {
         switch (answer.choice) {
           case 'View all departments':
-            // Call the function to view all departments
+            viewAllDepartments();
             break;
           case 'View all roles':
-            // Call the function to view all roles
+            viewAllRoles();
             break;
           case 'View all employees':
-            // Call the function to view all employees
+            viewAllEmployees();
             break;
           case 'Add a department':
-            // Call the function to add a department
+            addDepartment();
             break;
           case 'Add a role':
-            // Call the function to add a role
+            addRole();
             break;
           case 'Add an employee':
-            // Call the function to add an employee
+            addEmployee();
             break;
           case 'Update an employee role':
-            // Call the function to update an employee role
+            updateEmployeeRole();
             break;
           case 'Exit':
             connection.end(); // Close the database connection
