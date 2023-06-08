@@ -160,3 +160,42 @@ function mainMenu() {
       });
   }
   
+  function addEmployee() {
+    inquirer
+      .prompt([
+        {
+          name: 'first_name',
+          type: 'input',
+          message: "Enter the employee's first name:",
+        },
+        {
+          name: 'last_name',
+          type: 'input',
+          message: "Enter the employee's last name:",
+        },
+        {
+          name: 'role_id',
+          type: 'input',
+          message: "Enter the employee's role ID:",
+          validate: (input) => {
+            return !isNaN(input) || 'Please enter a valid number';
+          },
+        },
+        {
+          name: 'manager_id',
+          type: 'input',
+          message: "Enter the employee's manager ID:",
+          validate: (input) => {
+            return !isNaN(input) || 'Please enter a valid number';
+          },
+        },
+      ])
+      .then((answer) => {
+        connection.query('INSERT INTO employees SET ?', answer, (err) => {
+          if (err) throw err;
+          console.log('Employee added successfully!');
+          mainMenu();
+        });
+      });
+  }
+  
